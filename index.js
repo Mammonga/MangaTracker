@@ -9,16 +9,7 @@ import { fileURLToPath } from 'url';
 import router from './routes.js';
 
 const app = express();
-const port = 3000;
-
-const pool = new pg.Pool({
-    user: 'postgres',
-    host: 'localhost',
-    database: 'MangaArchive',
-    password: 'elvis39545',
-    port: 5432,
-});
-
+const port = process.env.PORT || 3000;
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
