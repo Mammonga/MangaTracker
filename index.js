@@ -14,7 +14,7 @@ const pool = new pg.Pool({
     user: 'postgres',
     host: 'localhost',
     database: 'MangaArchive',
-    password: 'elvis39545',
+    password: 'yourPassword',
     port: 5432,
 });
 
