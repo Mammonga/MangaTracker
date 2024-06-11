@@ -61,11 +61,11 @@ router.get('/', async (req, res) => {
 });
 
 router.post('/books', async (req, res) => {
-    const { title, author, genre, rating, review, cover_url, status } = req.body;
-    const query = 'INSERT INTO Book (Title, Author, Genre, Rating, Review, Cover_URL, Status) VALUES ($1, $2, $3, $4, $5, $6, $7)';
+    const { title, author, genre, rating, review, cover_url, status, chapter } = req.body;
+    const query = 'INSERT INTO Book (Title, Author, Genre, Rating, Review, Cover_URL, Status, Chapter) VALUES ($1, $2, $3, $4, $5, $6, $7 $8)';
     try {
         const client = await pool.connect();
-        await client.query(query, [title, author, genre, rating, review, cover_url, status]);
+        await client.query(query, [title, author, genre, rating, review, cover_url, status, chapter]);
         res.redirect('/');
         client.release();
     } catch (err) {
@@ -92,11 +92,11 @@ router.get('/books/:id/edit', async (req, res) => {
 });
 
 router.put('/books/:id', async (req, res) => {
-    const { title, author, genre, rating, review, cover_url, status } = req.body;
-    const query = 'UPDATE Book SET Title = $1, Author = $2, Genre = $3, Rating = $4, Review = $5, Cover_URL = $6, Status = $7 WHERE ID = $8';
+    const { title, author, genre, rating, review, cover_url, status, chapter } = req.body;
+    const query = 'UPDATE Book SET Title = $1, Author = $2, Genre = $3, Rating = $4, Review = $5, Cover_URL = $6, Status = $7, Chapter = $8 WHERE ID = $9';
     try {
         const client = await pool.connect();
-        await client.query(query, [title, author, genre, rating, review, cover_url, status, req.params.id]);
+        await client.query(query, [title, author, genre, rating, review, cover_url, status, chapter, req.params.id]);
         res.redirect('/');
         client.release();
     } catch (err) {
