@@ -4,8 +4,12 @@ import { Image } from 'image-js';
 import pg from 'pg';
 import dotenv from 'dotenv';
 
+const app= express();
+
 dotenv.config();
 const router = express.Router();
+
+app.set('view engine', 'ejs');
 
 const pool = new pg.Pool({
     user: process.env.DB_USER,
@@ -60,9 +64,20 @@ router.get('/', async (req, res) => {
     }
 });
 
+router.get('/addBook', (req, res) => {
+    res.render('addBook', function(err, html) {
+        if (err) {
+            console.log(err);
+            res.send('Error rendering page');
+        } else {
+            res.send(html);
+        }
+    });
+});
+
 router.post('/books', async (req, res) => {
     const { title, author, genre, rating, review, cover_url, status, chapter } = req.body;
-    const query = 'INSERT INTO Book (Title, Author, Genre, Rating, Review, Cover_URL, Status, Chapter) VALUES ($1, $2, $3, $4, $5, $6, $7 $8)';
+    const query = 'INSERT INTO Book (Title, Author, Genre, Rating, Review, Cover_URL, Status, Chapter) VALUES ($1, $2, $3, $4, $5, $6, $7, $8)';
     try {
         const client = await pool.connect();
         await client.query(query, [title, author, genre, rating, review, cover_url, status, chapter]);
